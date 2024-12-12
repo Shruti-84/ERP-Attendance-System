@@ -1,0 +1,7 @@
+Flask
+opencv-python
+numpy
+sqlite3
+mysql
+pillow
+cv2
