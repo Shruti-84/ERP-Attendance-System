@@ -1,5 +1,5 @@
 <h2>Face Recognition System for Attendance Management</h2><br><br>	
-<h4>Overview:</h4><br>
+<h4>Overview:</h4>
 The Face Recognition System for Attendance Management is a Python application designed to automate the process of marking attendance in educational or corporate settings.Using OpenCV for face detection, Tkinter for a graphical user interface (GUI), and MySQL for database management, this system can recognize faces and record attendance in real-time. It streamlines attendance tracking by matching faces to stored data and updating attendance records automatically.<br><br>
 
 <h4>Features:</h4>
