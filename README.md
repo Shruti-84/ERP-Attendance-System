@@ -15,12 +15,12 @@ Tkinter (for GUI)<br>
 Pillow (for image processing)<br>
 MySQL Connector<br>
 A trained model (Classifier.xml)<br><br>
-<h4>Installation:</h4><br>
-Clone the repository:<br>
+<h4>Installation:</h4>
+<h6>Clone the repository:</h6>
     git clone https://github.com/your-username/face-recognition-attendance-system.git<br>
-Install required libraries:<br>
+<h6>Install required libraries:</h6>
     pip install opencv-python tkinter pillow mysql-connector-python<br>
-Set up MySQL:<br>
+<h6>Set up MySQL:</h6>
 Create a database called face_recognization.<br>
 Create a table named student with fields:<br>
 Student_Id (INT)<br>
@@ -31,7 +31,7 @@ Populate the student table with student details.<br>
 Place the trained Classifier.xml file in the appropriate directory.<br>
 Ensure that the image paths (e.g., image22.jpeg, image21.jpeg) are correct or replace them with your own images.<br><br>
 
-<h4>Usage:</h4><br>
+<h4>Usage:</h4>
 Run the Python script:<br>
 python face_recognition_system.py<br>
 The application will launch, displaying images and a Face Recognition button.<br>
@@ -40,7 +40,7 @@ Click Face Recognition to activate the webcam and start real-time face detection
 
 When a face is recognized, the system will display the student's details and mark their attendance in the CSV file.<br><br>
 
-<h4>Attendance Logging:</h4><br>
+<h4>Attendance Logging:</h4>
 The system logs attendance in a CSV file (attendence.csv), which includes:<br>
 Student ID<br>
 Roll No<br>
@@ -50,14 +50,14 @@ Time and Date of attendance<br>
 Status (Present)<br>
 Screenshots<br><br>
 
-<h4>Known Issues:</h4><br>
+<h4>Known Issues:</h4>
 Faces may not be recognized under low light conditions.<br>
 The webcam quality and positioning affect recognition accuracy.<br>
 Ensure the Classifier.xml model is correctly trained.<br><br>
-<h4>Future Improvements:</h4><br>
+<h4>Future Improvements:</h4>
 Add notifications and reporting features for attendance summaries.<br>
 Improve recognition accuracy using deep learning-based models.<br>
 Integrate cloud-based storage for attendance data.<br><br>
-<h4>Contributing:</h4><br>
+<h4>Contributing:</h4>
 Feel free to fork this repository, report issues, or submit pull requests. If you have suggestions for improvements, open an issue, and we’ll be happy to collaborate.
 
