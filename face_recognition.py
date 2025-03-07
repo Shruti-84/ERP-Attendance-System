@@ -55,7 +55,7 @@ class Face_Recognition:
             gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             features = classifier.detectMultiScale(gray_image, scaleFactor, minNeighbors)
 
-            if len(features) == 1:
+            if len(features) == 0:  # Fixed condition to check if no faces are detected
                 print("No faces detected.")
                 return []
 
@@ -63,43 +63,44 @@ class Face_Recognition:
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
                 id, predict = clf.predict(gray_image[y:y + h, x:x + w])
                 confidence = int(100 * (1 - predict / 300))
-                print(confidence)
+                
 
+                # Connect to the database
                 conn = mysql.connector.connect(host="localhost", username="root", password="MySQL@1234", database="face_recognization")
                 my_cursor = conn.cursor()
 
                 # Fetching student details from the database
                 my_cursor.execute("SELECT Name FROM student WHERE Student_Id=%s", (id,))
                 n = my_cursor.fetchone()
-                n = str(n) #if n else "Unknown"
+                n = str(n[0]) if n else "Unknown"  # Handle None values
 
                 my_cursor.execute("SELECT `Roll No` FROM student WHERE Student_Id=%s", (id,))
                 r = my_cursor.fetchone()
-                r = str(r) #if r else "Unknown"
+                r = str(r[0]) if r else "Unknown"  # Handle None values
 
                 my_cursor.execute("SELECT Dep FROM student WHERE Student_Id=%s", (id,))
                 d = my_cursor.fetchone()
-                d = str(r)# if d else "Unknown"
+                d = str(d[0]) if d else "Unknown"  # Handle None values
 
                 my_cursor.execute("SELECT Student_Id FROM student WHERE Student_Id=%s", (id,))
                 i = my_cursor.fetchone()
-                i = str(i) #if i else "Unknown"
+                i = str(i[0]) if i else "Unknown"  # Handle None values
 
-                if confidence > 77:
-                   # Add a background for better visibility
+                if confidence > 77:  # You can adjust this threshold based on your requirement
+                    # Add a background for better visibility
                     cv2.rectangle(img, (x - 10, y - 80), (x + 250, y - 5), (0, 0, 0), -1)  # Black background rectangle
 
+                    # Display the fetched details
                     cv2.putText(img, f"Student_Id: {i}", (x, y - 75), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 2)
                     cv2.putText(img, f"Roll No: {r}", (x, y - 55), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 2)
                     cv2.putText(img, f"Name: {n}", (x, y - 30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 2)
                     cv2.putText(img, f"Department: {d}", (x, y - 5), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 2)
-
                 else:
                     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
                     cv2.putText(img, "Unknown Face", (x, y - 5), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 2)
-
+            print(confidence)
             return features
-
+            
         def recognize(img, clf, faceCascade):
             features = draw_boundary(img, faceCascade, 1.3, 5, (255, 0, 0), "Face", clf)
             return img
@@ -123,11 +124,13 @@ class Face_Recognition:
             cv2.imshow("Welcome To Face Recognition", img)
 
             # Press Enter key to exit
-            if cv2.waitKey(1) == 13:
+            if cv2.waitKey(1) == 13:  # Enter key to stop
                 break
 
         video_cap.release()
         cv2.destroyAllWindows()
+
+
 
 if __name__ == "__main__":
     root = Tk()
