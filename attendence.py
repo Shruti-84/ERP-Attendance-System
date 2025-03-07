@@ -13,7 +13,16 @@ class Attendence:
     def __init__(self, root):
         self.root = root
         self.root.geometry("1366x768+0+0")
-        self.root.title("Student Attendence Management System")
+        self.root.title("Student Attendance Management System")
+        
+        #================variables========================
+        self.var_atten_id = StringVar()
+        self.var_atten_roll= StringVar()
+        self.var_atten_name= StringVar()
+        self.var_atten_dep= StringVar()
+        self.var_atten_time= StringVar()
+        self.var_atten_date= StringVar()
+        self.var_atten_atendance = StringVar()
         
         # first img
         img = Image.open(r"C:\Users\user\Desktop\Student attendence\images\image5.jpeg")
@@ -69,49 +78,49 @@ class Attendence:
         studentId_label=Label(Class_Student_frame,text="Employee Id:",font=("times new roman", 12, "bold"),bg="white")
         studentId_label.grid(row=1,column=0,padx=5,pady=5,sticky=W)
         
-        studentId_entry=Entry(Class_Student_frame,width=20,font=("times new roman", 12, "bold"),bg="white")
+        studentId_entry=Entry(Class_Student_frame,width=20,textvariable=self.var_atten_id,font=("times new roman", 12, "bold"),bg="white")
         studentId_entry.grid(row=1,column=1,padx=5,pady=5,sticky=W)
         
         #student Name
         studentId_label=Label(Class_Student_frame,text="Name",font=("times new roman", 12, "bold"),bg="white")
         studentId_label.grid(row=2,column=0,padx=5,pady=5,sticky=W)
         
-        studentId_entry=Entry(Class_Student_frame,width=20,font=("times new roman", 12, "bold"),bg="white")
+        studentId_entry=Entry(Class_Student_frame,width=20,textvariable=self.var_atten_name,font=("times new roman", 12, "bold"),bg="white")
         studentId_entry.grid(row=2,column=1,padx=5,pady=5,sticky=W)
         
         #Roll No.
         studentId_label=Label(Class_Student_frame,text="Roll No:",font=("times new roman", 12, "bold"),bg="white")
         studentId_label.grid(row=1,column=2,padx=5,pady=5,sticky=W)
         
-        studentId_entry=Entry(Class_Student_frame,width=20,font=("times new roman", 12, "bold"),bg="white")
+        studentId_entry=Entry(Class_Student_frame,width=20,textvariable=self.var_atten_roll,font=("times new roman", 12, "bold"),bg="white")
         studentId_entry.grid(row=1,column=3,padx=5,pady=5,sticky=W)
         
-        #DOB
+        #Department
         studentId_label=Label(Class_Student_frame,text="Department",font=("times new roman", 12, "bold"),bg="white")
         studentId_label.grid(row=2,column=2,padx=5,pady=5,sticky=W)
         
-        studentId_entry=Entry(Class_Student_frame,width=20,font=("times new roman", 12, "bold"),bg="white")
+        studentId_entry=Entry(Class_Student_frame,width=20,textvariable=self.var_atten_dep,font=("times new roman", 12, "bold"),bg="white")
         studentId_entry.grid(row=2,column=3,padx=5,pady=5,sticky=W)
         
-        #EMAIL
+        #Time
         studentId_label=Label(Class_Student_frame,text="Time",font=("times new roman", 12, "bold"),bg="white")
         studentId_label.grid(row=3,column=0,padx=5,pady=5,sticky=W)
         
-        studentId_entry=Entry(Class_Student_frame,width=20,font=("times new roman", 12, "bold"),bg="white")
+        studentId_entry=Entry(Class_Student_frame,width=20,textvariable=self.var_atten_time,font=("times new roman", 12, "bold"),bg="white")
         studentId_entry.grid(row=3,column=1,padx=5,pady=5,sticky=W)
         
-        #PH NO
+        #Date
         studentId_label=Label(Class_Student_frame,text="Date",font=("times new roman", 12, "bold"),bg="white")
         studentId_label.grid(row=3,column=2,padx=5,pady=5,sticky=W)
         
-        studentId_entry=Entry(Class_Student_frame,width=20,font=("times new roman", 12, "bold"),bg="white")
+        studentId_entry=Entry(Class_Student_frame,width=20,textvariable=self.var_atten_date,font=("times new roman", 12, "bold"),bg="white")
         studentId_entry.grid(row=3,column=3,padx=5,pady=5,sticky=W)
         
-        #ADDRESS
-        studentId_label=Label(Class_Student_frame,text="Attendence:",font=("times new roman", 12, "bold"),bg="white")
+        #Attendance
+        studentId_label=Label(Class_Student_frame,text="Attendance:",font=("times new roman", 12, "bold"),bg="white")
         studentId_label.grid(row=4,column=0,padx=5,pady=5,sticky=W)
         
-        attendence_combo=ttk.Combobox(Class_Student_frame,font=("times new roman", 12, "bold"),state="read only",width=17)
+        attendence_combo=ttk.Combobox(Class_Student_frame,textvariable=self.var_atten_atendance,font=("times new roman", 12, "bold"),state="read only",width=17)
         attendence_combo["values"]=("Status","Present","Absent")
         attendence_combo.current(0)
         attendence_combo.grid(row=4,column=1,padx=5,pady=5,sticky=W)
@@ -129,10 +138,10 @@ class Attendence:
         delete_btn= Button(btn_frame,text="Update",width=20,font=("times new roman", 10, "bold"), bg="blue", fg="white")
         delete_btn.grid(row=0,column=2)
         
-        reset_btn= Button(btn_frame,text="Reset",width=20,font=("times new roman", 10, "bold"), bg="blue", fg="white")
+        reset_btn= Button(btn_frame,text="Reset",width=20,command=self.reset_data,font=("times new roman", 10, "bold"), bg="blue", fg="white")
         reset_btn.grid(row=0,column=3)
         
-        # Right label frame
+        #Right label frame
         Right_frame=LabelFrame(main_frame,bd=2,bg="white",relief=RIDGE,text="Student Information",font=("times new roman", 12, "bold"))
         Right_frame.place(x=640,y=10,width=640,height=525)
         
@@ -167,10 +176,11 @@ class Attendence:
         self.attendenceRvfeport_table.column("date",width=100)
         self.attendenceRvfeport_table.column("attendence",width=100)
         self.attendenceRvfeport_table.pack(fill=BOTH, expand=1)
-        # self.student_table.bind("<ButtonRelease>",self.get_cursor)
-        # self.fetch_data()
         
-        #========= c==fetch data========================
+        self.attendenceRvfeport_table.bind("<ButtonRelease>",self.get_cursor)
+        
+        
+        #=========fetch data========================
     def fetchData(self,rows):
         self.attendenceRvfeport_table.delete(*self.attendenceRvfeport_table.get_children())
         for i in rows:
@@ -180,11 +190,7 @@ class Attendence:
     def importCsv(self):
         global mydata     
         mydata.clear()   
-        fln = filedialog.askopenfilename(
-        initialdir=os.getcwd(),
-        title="Open CSV",
-        filetypes=[("CSV File", "*.csv"), ("ALL File", "*.*")],
-        parent=self.root)
+        fln = filedialog.askopenfilename(initialdir =os.getcwd(),title="Open CSV",filetypes=[("CSV File", "*csv"), ("ALL File", "*.*")],parent=self.root)
         with open(fln) as myfile:
             csvread = csv.reader(myfile,delimiter=",")
             for i in csvread:
@@ -197,22 +203,35 @@ class Attendence:
             if len(mydata)<1:
                 messagebox.showerror("No Data Found to Export",parent=self.root)
                 return False
-            fln = filedialog.asksaveasfilename(
-            initialdir=os.getcwd(),
-            title="Open CSV",
-            filetypes=[("CSV File", "*.csv"), ("ALL File", "*.*")],
-            parent=self.root)
+            fln = filedialog.asksaveasfilename(initialdir=os.getcwd(),title="Open CSV",filetypes=[("CSV File", "*.csv"), ("ALL File", "*.*")],parent=self.root)
             with open(fln="w",newline="") as myfile:
                 exp_write = csv.writer(myfile,delimiter=",")
                 for i in mydata:
-                    exp_write.writerows(i)
+                    exp_write.writerow(i)
                 messagebox.showinfo("Data Export","Your Data Exported to"+os.path.basename(fln)+"Successfully")
         except Exception as es:
             messagebox.showerror("Error",f"Due To:{str(es)}",parent=self.root)        
+            
+    def get_cursor(self,event = ""):
+        cursor_row = self.attendenceRvfeport_table.focus()
+        content = self.attendenceRvfeport_table.item(cursor_row)
+        rows = content['values']
+        self.var_atten_id.set(rows[0])        
+        self.var_atten_roll.set(rows[1])
+        self.var_atten_name.set(rows[2])
+        self.var_atten_dep.set(rows[3])
+        self.var_atten_time.set(rows[4])
+        self.var_atten_date.set(rows[5])
+        self.var_atten_atendance.set(rows[6])
         
-        
-        
-        
+    def reset_data(self):
+        self.var_atten_id.set("")        
+        self.var_atten_roll.set("")
+        self.var_atten_name.set("")
+        self.var_atten_dep.set("")
+        self.var_atten_time.set("")
+        self.var_atten_date.set("")
+        self.var_atten_atendance.set("")
         
 if __name__ == "__main__":
     root = Tk()
