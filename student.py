@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 import mysql.connector
 import cv2
-
+import os
 
 
 class student:
@@ -152,7 +152,7 @@ class student:
         studentId_label.grid(row=1,column=0,padx=5,pady=5,sticky=W)
         
         div_combo=ttk.Combobox(Class_Student_frame,textvariable=self.var_div,font=("times new roman", 12, "bold"),state="read only",width=17)
-        div_combo["values"]=("Select Division","A","B","C")
+        div_combo["values"]=("","A","B","C")
         div_combo.current(0)
         div_combo.grid(row=1,column=1,padx=5,pady=5,sticky=W)
         
@@ -168,7 +168,7 @@ class student:
         studentId_label.grid(row=3,column=0,padx=5,pady=10,sticky=W)
         
         Gender_combo=ttk.Combobox(Class_Student_frame,textvariable=self.var_gender,font=("times new roman", 12, "bold"),state="read only",width=17)
-        Gender_combo["values"]=("Select Gender","Male","Female","Other")
+        Gender_combo["values"]=("","Male","Female","Other")
         Gender_combo.current(0)
         Gender_combo.grid(row=3,column=1,padx=5,pady=5,sticky=W)
         
@@ -437,9 +437,7 @@ class student:
                 conn.close()         
             except Exception as es:
                 messagebox.Showerror("Error",f"Due To:{str(es)}",parent=self.root)
-                
-                
-    # delete function
+                # delete function
     def delete_data(self):
         if self.var_std_id.get()=="":
             messagebox.showerror("Error","Student Id must required", parent=self.root)
@@ -461,8 +459,7 @@ class student:
                 messagebox.showinfo("Delete", "Successfully Deleted", parent=self.root)
             except Exception as es:
                 messagebox.Showerror("Error",f"Due To:{str(es)}",parent=self.root)   
-                
-    # reset
+              # reset
     def reset_data(self):
         self.var_dep.set("Select Department")
         self.var_course.set("Select Course")
@@ -479,9 +476,7 @@ class student:
         self.var_address.set("")
         self.var_teacher.set("")
         self.var_radio1.set("")
-        
-        
-# ========================Generate data set or take photo samples==========================
+        # ========================Generate data set or take photo samples==========================
     def generate_dataset(self):
         if self.var_dep.get()=="Select Department" or self.var_std_id.get()=="" or self.var_std_name.get()=="":
             messagebox.showerror("Error","All Fields are required",parent=self.root)
@@ -510,7 +505,7 @@ class student:
                                                                                                                                                                                                                             self.var_address.get(),
                                                                                                                                                                                                                             self.var_teacher.get(),
                                                                                                                                                                                                                             self.var_radio1.get(),
-                                                                                                                                                                                                                            self.var_std_id.get()==id+1                                                         
+                                                                                                                                                                                                                            id+1                                                       
                                                                                                                                                                                                                         ))
                 conn.commit()
                 self.fetch_data()
@@ -523,42 +518,46 @@ class student:
                 def face_extractor(img):
                     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-                    if len(faces) == 0 :
+                    if len(faces) == 0:
                         return None
-
                     for (x, y, w, h) in faces:
-        # cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
-                        cropped_face = img[y:y+h, x:x+w]
-    
+                        cropped_face = img[y:y + h, x:x + w]
                     return cropped_face
+
                 cap = cv2.VideoCapture(0)
                 count = 0
+
+                dataset_dir = "C:/Users/user/Desktop/Student attendence/dataset/"
+                if not os.path.exists(dataset_dir):
+                    os.makedirs(dataset_dir)
 
                 while True:
                     ret, frame = cap.read()
                     if face_extractor(frame) is not None:
-                        count = count+1
-                        face = cv2.resize(face_extractor(frame),(200,200))
+                        count += 1
+                        face = cv2.resize(face_extractor(frame), (200, 200))
                         face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-        
-                        file_name_path = "C:/Users/user/Desktop/Student attendence/dataset/user."+ str(id)+"." + str(count) + '.jpg'
-        
+
+                        file_name_path = os.path.join(dataset_dir, f"user.{id}.{count}.jpg")
                         cv2.imwrite(file_name_path, face)
-        
-                        cv2.putText(frame ,str(count),(50,50),cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
+
+                        cv2.putText(frame, str(count), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
                         cv2.imshow('Face Cropper', frame)
                     else:
-                        print('face not found')
-                        pass
-    
-                    if cv2.waitKey(1) == 13 or count == 100:
-                        break
-    
-                
-                messagebox.showinfo("Result","Generating data sets completed!!!")
-            except Exception as es:
-                messagebox.showerror("Error",f"Due To:{str(es)}",parent=self.root)
+                        print("Face not found. Retrying...")
+                        continue
 
+                    if cv2.waitKey(1) == 13 or count == 100:  # Enter key or 100 samples
+                        break
+
+                cap.release()
+                cv2.destroyAllWindows()
+                messagebox.showinfo("Result", "Generating datasets completed!!!", parent=self.root)
+
+            except Exception as es:
+                messagebox.showerror("Error", f"Due To: {str(es)}", parent=self.root)
+
+            finally:
                 cap.release()
                 cv2.destroyAllWindows()
     
