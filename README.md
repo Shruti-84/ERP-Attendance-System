@@ -17,7 +17,7 @@ MySQL Connector<br>
 A trained model (Classifier.xml)<br><br>
 <h4>Installation:</h4>
 <h6>Clone the repository:</h6>
-    git clone https://github.com/your-username/face-recognition-attendance-system.git<br>
+    git clone https://github.com/Shruti-84/ERP-Attendence-System.git<br>
 <h6>Install required libraries:</h6>
     pip install opencv-python tkinter pillow mysql-connector-python<br>
 <h6>Set up MySQL:</h6>
