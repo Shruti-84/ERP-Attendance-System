@@ -9,7 +9,7 @@ import csv
 from tkinter import filedialog
 
 mydata=[]
-class Attendence:
+class Attendance:
     def __init__(self, root):
         self.root = root
         self.root.geometry("1366x768+0+0")
@@ -53,14 +53,14 @@ class Attendence:
         bg_img.place(x=0, y=100, width=1366, height=768)    
 
         # Title label 
-        title_lbl = Label(bg_img, text="STUDENT ATTENDENCE MANAGEMENT SYSTEM", font=("times new roman", 25, "bold"), bg="white", fg="green")
+        title_lbl = Label(bg_img, text="STUDENT ATTENDANCE MANAGEMENT SYSTEM", font=("times new roman", 25, "bold"), bg="white", fg="green")
         title_lbl.place(x=0, y=0, width=1366, height=35)  
         
         main_frame=Frame(bg_img,bd=2,bg="white")
         main_frame.place(x=20,y=50,width=1300,height=550)
         
         # Left label frame
-        Left_frame=LabelFrame(main_frame,bd=2,bg="White",relief=RIDGE,text="Student Attendence Detail",font=("times new roman", 12, "bold"))
+        Left_frame=LabelFrame(main_frame,bd=2,bg="White",relief=RIDGE,text="Student Attendance Detail",font=("times new roman", 12, "bold"))
         Left_frame.place(x=25,y=10,width=600,height=525)
         
         img_Left = Image.open(r"C:\Users\user\Desktop\Student attendence\images\image11.jpg")
@@ -235,5 +235,5 @@ class Attendence:
         
 if __name__ == "__main__":
     root = Tk()
-    obj = Attendence(root)
+    obj = Attendance(root)
     root.mainloop()
