@@ -151,7 +151,7 @@ class Attendance:
         scroll_x=ttk.Scrollbar(Table_frame,orient=HORIZONTAL)
         scroll_y=ttk.Scrollbar(Table_frame,orient=VERTICAL)
         
-        self.attendenceRvfeport_table=ttk.Treeview(Table_frame,column=("id","roll","name","department","time","date","attendence"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y)
+        self.attendenceRvfeport_table=ttk.Treeview(Table_frame,column=("id","roll","name","department","time","date","attendance"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y)
         
         scroll_x.pack(side=BOTTOM,fill=X)
         scroll_y.pack(side=RIGHT,fill=Y)
@@ -159,13 +159,13 @@ class Attendance:
         scroll_x.config(command=self.attendenceRvfeport_table.xview)
 
         
-        self.attendenceRvfeport_table.heading("id", text="Attendence Id")
+        self.attendenceRvfeport_table.heading("id", text="Attendance Id")
         self.attendenceRvfeport_table.heading("roll", text="Roll No")
         self.attendenceRvfeport_table.heading("name", text="Name")
         self.attendenceRvfeport_table.heading("department", text="Department")
         self.attendenceRvfeport_table.heading("time", text="Time")
         self.attendenceRvfeport_table.heading("date", text="Date")
-        self.attendenceRvfeport_table.heading("attendence", text="Attendence")
+        self.attendenceRvfeport_table.heading("attendence", text="Attendance")
         self.attendenceRvfeport_table["show"]="headings"
         
         self.attendenceRvfeport_table.column("id",width=100)
@@ -174,7 +174,7 @@ class Attendance:
         self.attendenceRvfeport_table.column("department",width=100)
         self.attendenceRvfeport_table.column("time",width=100)
         self.attendenceRvfeport_table.column("date",width=100)
-        self.attendenceRvfeport_table.column("attendence",width=100)
+        self.attendenceRvfeport_table.column("attendance",width=100)
         self.attendenceRvfeport_table.pack(fill=BOTH, expand=1)
         
         self.attendenceRvfeport_table.bind("<ButtonRelease>",self.get_cursor)
